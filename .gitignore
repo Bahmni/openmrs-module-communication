@@ -1,0 +1,14 @@
+.idea/*
+*.iml
+target/
+
+.project
+.settings/
+api/.classpath
+api/.project
+api/.settings/
+omod/.classpath
+omod/.project
+omod/.settings/
+target/
+.DS_Store
