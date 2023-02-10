@@ -7,7 +7,7 @@
     <groupId>org.bahmni.module</groupId>
     <artifactId>communication</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <modules>
         <module>api</module>
@@ -17,7 +17,7 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <openmrsPlatformVersion>2.5.7</openmrsPlatformVersion>
+        <openmrsPlatformVersion>2.5.10</openmrsPlatformVersion>
         <webServicesVersion>2.29.0</webServicesVersion>
         <jacocoVersion>0.7.9</jacocoVersion>
         <javaxMailVersion>1.6.2</javaxMailVersion>
@@ -132,9 +132,10 @@
             </dependency>
 
             <dependency>
-                <groupId>javax.mail</groupId>
-                <artifactId>javax.mail-api</artifactId>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
                 <version>${javaxMailVersion}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.openmrs.tools</groupId>

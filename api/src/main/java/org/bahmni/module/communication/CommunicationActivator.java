@@ -14,6 +14,6 @@ public class CommunicationActivator extends BaseModuleActivator {
 
     @Override
     public void stopped() {
-        log.info("Started Communication");
+        log.info("Communication Stopped");
     }
 }

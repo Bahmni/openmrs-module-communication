@@ -64,12 +64,16 @@ public class CommunicationServiceImpl implements CommunicationService {
             multiPart.addBodyPart(attachment);
             mail.setContent(multiPart);
 
+            Thread t =  Thread.currentThread();
+            ClassLoader ccl = t.getContextClassLoader();
+            t.setContextClassLoader(session.getClass().getClassLoader());
             Transport transport = session.getTransport();
             log.info("Sending Mail");
             transport.connect(session.getProperty("mail.smtp.host"), session.getProperty("mail.user"), session.getProperty("mail.password"));
             transport.sendMessage(mail, mail.getAllRecipients());
             log.info("Mail Sent");
             transport.close();
+            t.setContextClassLoader(ccl);
 
         } catch (Exception exception) {
             throw new RuntimeException("Error occurred while sending email", exception);

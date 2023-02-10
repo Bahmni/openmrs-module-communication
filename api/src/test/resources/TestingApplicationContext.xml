@@ -7,8 +7,6 @@
   		    http://www.springframework.org/schema/context
   		    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-    <context:component-scan base-package="org.bahmni.module.communication"/>
-
     <bean id="administrationService" name="administrationService" class="org.openmrs.api.impl.AdministrationServiceImpl"/>
     <bean parent="serviceContext">
         <property name="moduleService">
@@ -18,29 +16,6 @@
             </list>
         </property>
     </bean>
-
-<!--    <bean id="specialityService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">-->
-<!--        <property name="transactionManager">-->
-<!--            <ref bean="transactionManager"/>-->
-<!--        </property>-->
-<!--        <property name="target">-->
-<!--            <bean class="org.openmrs.module.appointments.service.impl.SpecialityServiceImpl">-->
-<!--                <property name="specialityDao">-->
-<!--                    <bean class="org.openmrs.module.appointments.dao.impl.SpecialityDaoImpl">-->
-<!--                        <property name="sessionFactory">-->
-<!--                            <ref bean="sessionFactory"/>-->
-<!--                        </property>-->
-<!--                    </bean>-->
-<!--                </property>-->
-<!--            </bean>-->
-<!--        </property>-->
-<!--        <property name="preInterceptors">-->
-<!--            <ref bean="serviceInterceptors"/>-->
-<!--        </property>-->
-<!--        <property name="transactionAttributeSource">-->
-<!--            <ref bean="transactionAttributeSource"/>-->
-<!--        </property>-->
-<!--    </bean>-->
 
     <bean parent="serviceContext">
         <property name="moduleService">

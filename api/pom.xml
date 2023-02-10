@@ -5,7 +5,7 @@
     <parent>
         <artifactId>communication</artifactId>
         <groupId>org.bahmni.module</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -111,10 +111,6 @@
             <artifactId>openmrs-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openmrs.web</groupId>
-            <artifactId>openmrs-web</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.openmrs.test</groupId>
             <artifactId>openmrs-test</artifactId>
             <type>pom</type>
@@ -129,11 +125,6 @@
             <version>${openmrsPlatformVersion}</version>
             <type>test-jar</type>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>javax.mail-api</artifactId>
-            <version>${javaxMailVersion}</version>
         </dependency>
         <dependency>
             <groupId>com.sun.mail</groupId>

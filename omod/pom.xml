@@ -5,7 +5,7 @@
     <parent>
         <artifactId>communication</artifactId>
         <groupId>org.bahmni.module</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,31 +13,6 @@
     <packaging>jar</packaging>
     <name>communication-omod</name>
     <description>Bahmni module for Communication</description>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.bahmni.module</groupId>
-            <artifactId>communication-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openmrs.web</groupId>
-            <artifactId>openmrs-web</artifactId>
-            <scope>provided</scope>
-            <version>${openmrsPlatformVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openmrs.module</groupId>
-            <artifactId>webservices.rest-omod-common</artifactId>
-            <scope>provided</scope>
-            <version>${webServicesVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openmrs.module</groupId>
-            <artifactId>webservices.rest-omod-common</artifactId>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
