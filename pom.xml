@@ -8,6 +8,31 @@
     <artifactId>communication</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
+    <name>Bahmni Communication Module</name>
+    <description>OpenMRS Module for Email, SMS Notifications</description>
+    <url>https://demo.mybahmni.org/bahmni/home/index.html</url>
+
+    <licenses>
+        <license>
+            <name>GNU AFFERO GENERAL PUBLIC LICENSE</name>
+            <url>https://www.gnu.org/licenses/agpl-3.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Bahmni</name>
+            <email>bahmnicommunity@gmail.com</email>
+            <organization>Bahmni</organization>
+            <organizationUrl>https://github.com/Bahmni</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/bahmni/oopenmrs-module-communication.git</connection>
+        <developerConnection>scm:git:https://github.com/Bahmni/openmrs-module-communication.git</developerConnection>
+        <url>https://github.com/Bahmni/openmrs-module-communication</url>
+    </scm>
 
     <modules>
         <module>api</module>
@@ -18,7 +43,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <openmrsPlatformVersion>2.5.10</openmrsPlatformVersion>
-        <webServicesVersion>2.29.0</webServicesVersion>
+        <webServicesVersion>2.38.0</webServicesVersion>
         <jacocoVersion>0.7.9</jacocoVersion>
         <javaxMailVersion>1.6.2</javaxMailVersion>
     </properties>
@@ -136,11 +161,6 @@
                 <artifactId>javax.mail</artifactId>
                 <version>${javaxMailVersion}</version>
                 <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.openmrs.tools</groupId>
-                <artifactId>openmrs-tools</artifactId>
-                <version>${openmrsPlatformVersion}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

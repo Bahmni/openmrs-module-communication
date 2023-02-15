@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>communication-api</artifactId>
     <name>communication API</name>
-    <description>API project for Bahmni Appointment Scheduling</description>
+    <description>API project for Bahmni Communication</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -116,10 +116,6 @@
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>org.openmrs.module</groupId>
-            <artifactId>webservices.rest-omod-common</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.openmrs.api</groupId>
             <artifactId>openmrs-api</artifactId>
             <version>${openmrsPlatformVersion}</version>
@@ -131,6 +127,12 @@
             <artifactId>mockito-core</artifactId>
             <version>3.12.4</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

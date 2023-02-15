@@ -9,11 +9,11 @@ public class CommunicationActivator extends BaseModuleActivator {
 
     @Override
     public void started() {
-        log.info("Started Communication");
+        log.info("Started Bahmni Communication module");
     }
 
     @Override
     public void stopped() {
-        log.info("Communication Stopped");
+        log.info("Stopped Bahmni Communication module");
     }
 }

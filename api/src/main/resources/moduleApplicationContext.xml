@@ -23,7 +23,7 @@
   		    http://www.springframework.org/schema/util
   		    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-    <context:component-scan base-package="org.bahmni.module.communication" />
+<!--    <context:component-scan base-package="org.bahmni.module.communication" />-->
 
     <bean id="communicationService" class="org.bahmni.module.communication.api.impl.CommunicationServiceImpl" />
 
