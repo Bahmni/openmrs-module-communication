@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//OpenMRS//DTD OpenMRS Config 1.0//EN" "http://resources.openmrs.org/doctype/config-1.6.dtd">
 
-<module configVersion="1.4">
+<module configVersion="1.6">
 
     <id>communication</id>
     <name>Communication</name>
@@ -11,8 +12,26 @@
 
     <activator>org.bahmni.module.communication.CommunicationActivator</activator>
 
+    <require_version>1.11.6</require_version>
+
     <require_modules>
         <require_module>org.openmrs.module.webservices.rest</require_module>
     </require_modules>
+
+    <messages>
+        <lang>en</lang>
+        <file>messages.properties</file>
+    </messages>
+    <messages>
+        <lang>fr</lang>
+        <file>messages_fr.properties</file>
+    </messages>
+    <messages>
+        <lang>es</lang>
+        <file>messages_es.properties</file>
+    </messages>
+
+    <!-- AOP -->
+    <!-- Required Privileges -->
 
 </module>
