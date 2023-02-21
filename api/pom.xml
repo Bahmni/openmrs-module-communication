@@ -11,13 +11,8 @@
 
     <artifactId>communication-api</artifactId>
     <packaging>jar</packaging>
-    <name>communication API</name>
+    <name>Communication API</name>
     <description>API project for Bahmni Communication</description>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
 
 <!--    Added build for making mail works -->
     <build>
@@ -132,9 +127,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.20</version>
         </dependency>
-
     </dependencies>
 
 </project>
