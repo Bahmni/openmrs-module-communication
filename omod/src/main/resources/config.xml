@@ -29,5 +29,9 @@
 
     <!-- AOP -->
     <!-- Required Privileges -->
+    <privilege>
+        <name>Send Email</name>
+        <description>Will give access to send email</description>
+    </privilege>
 
 </module>
