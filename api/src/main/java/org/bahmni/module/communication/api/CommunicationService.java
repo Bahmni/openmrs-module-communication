@@ -6,6 +6,6 @@ import org.openmrs.annotation.Authorized;
 public interface CommunicationService {
 
     @Authorized({"Send Email"})
-    void sendEmail(MailContent mailContent, String patientUuid);
+    void sendEmail(MailContent mailContent);
 
 }

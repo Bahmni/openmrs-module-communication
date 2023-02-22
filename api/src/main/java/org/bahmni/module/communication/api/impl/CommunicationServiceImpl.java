@@ -5,11 +5,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.bahmni.module.communication.api.CommunicationService;
 import org.bahmni.module.communication.model.MailContent;
-import org.openmrs.Patient;
-import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.util.OpenmrsUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.mail.Session;
 import javax.mail.Address;
@@ -34,27 +31,20 @@ public class CommunicationServiceImpl implements CommunicationService {
     private final Log log = LogFactory.getLog(this.getClass());
     private volatile Session session = null;
 
-    @Autowired
-    PatientService patientService;
-
     @Override
-    public void sendEmail(MailContent mailContent, String patientUuid) {
+    public void sendEmail(MailContent mailContent) {
         try {
             MimeMessage mail = new MimeMessage(getSession());
 
-            Patient patient = patientService.getPatientByUuid(patientUuid);
-
-            String recipientEmail = patient.getAttribute("email").getValue();
-
-            File file = new File(mailContent.getFileName()+recipientEmail+".pdf");
+            File file = new File(mailContent.getFileName() + "_" + mailContent.getRecipient().getEmail() + ".pdf");
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             fileOutputStream.write(java.util.Base64.getDecoder().decode(mailContent.getPdf()));
 
             if(!Objects.equals(mail.getSession().getProperty("mail.send"), "true")) return;
             mail.setFrom(new InternetAddress(session.getProperty("mail.from")));
             Address[] toAddresses = new Address[1];
-            toAddresses[0] = new InternetAddress(recipientEmail);
-            mail.setRecipients(javax.mail.Message.RecipientType.TO, recipientEmail);
+            toAddresses[0] = new InternetAddress(mailContent.getRecipient().getEmail());
+            mail.setRecipients(javax.mail.Message.RecipientType.TO, mailContent.getRecipient().getEmail());
 
              if (mailContent.getCc() != null && mailContent.getCc().length > 0) {
                  mail.setRecipients(javax.mail.Message.RecipientType.CC, getAddresses(mailContent.getCc()));

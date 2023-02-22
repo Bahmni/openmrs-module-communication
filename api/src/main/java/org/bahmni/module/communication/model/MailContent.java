@@ -14,6 +14,7 @@ public class MailContent {
     private String fileName;
     private String subject;
     private String body;
+    private Recipient recipient;
     private String[] cc;
     private String[] bcc;
 }
