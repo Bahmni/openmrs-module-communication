@@ -44,9 +44,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 
             Patient patient = patientService.getPatientByUuid(patientUuid);
 
-//            String recipientName = patient.getGivenName() + patient.getMiddleName()!=null ? " "+patient.getMiddleName() : "" + " " + patient.getFamilyName();
             String recipientEmail = patient.getAttribute("email").getValue();
-//            Recipient recipient = new Recipient(recipientName, patient.getAttribute("email").getValue());
 
             File file = new File(mailContent.getFileName()+recipientEmail+".pdf");
             FileOutputStream fileOutputStream = new FileOutputStream(file);
