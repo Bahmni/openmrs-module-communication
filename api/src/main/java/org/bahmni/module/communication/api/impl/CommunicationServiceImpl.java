@@ -43,12 +43,13 @@ public class CommunicationServiceImpl implements CommunicationService {
             toAddresses[0] = new InternetAddress(mailContent.getRecipient().getEmail());
             mail.setRecipients(javax.mail.Message.RecipientType.TO, mailContent.getRecipient().getEmail());
 
-             if (mailContent.getCc() != null && mailContent.getCc().length > 0) {
-                 mail.setRecipients(javax.mail.Message.RecipientType.CC, getAddresses(mailContent.getCc()));
-             }
-             if (mailContent.getBcc() != null && mailContent.getCc().length > 0) {
-                 mail.setRecipients(javax.mail.Message.RecipientType.BCC, getAddresses(mailContent.getBcc()));
-             }
+            if (mailContent.getCc() != null && mailContent.getCc().length > 0) {
+             mail.setRecipients(javax.mail.Message.RecipientType.CC, getAddresses(mailContent.getCc()));
+            }
+            if (mailContent.getBcc() != null && mailContent.getCc().length > 0) {
+             mail.setRecipients(javax.mail.Message.RecipientType.BCC, getAddresses(mailContent.getBcc()));
+            }
+
             mail.setSubject(mailContent.getSubject());
             mail.setSentDate(new Date());
             MimeBodyPart mailBody = new MimeBodyPart();
