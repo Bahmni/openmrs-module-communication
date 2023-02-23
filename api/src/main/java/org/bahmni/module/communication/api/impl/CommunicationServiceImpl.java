@@ -4,10 +4,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.bahmni.module.communication.api.CommunicationService;
+import org.bahmni.module.communication.model.MailAttachment;
 import org.bahmni.module.communication.model.MailContent;
 import org.openmrs.api.context.Context;
 import org.openmrs.util.OpenmrsUtil;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.mail.Session;
 import javax.mail.Address;
 import javax.mail.Multipart;
@@ -15,8 +18,7 @@ import javax.mail.Transport;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.internet.*;
-import java.io.File;
-import java.io.FileOutputStream;
+import javax.mail.util.ByteArrayDataSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,11 +37,6 @@ public class CommunicationServiceImpl implements CommunicationService {
     public void sendEmail(MailContent mailContent) {
         try {
             MimeMessage mail = new MimeMessage(getSession());
-
-            File file = new File(mailContent.getFileName() + "_" + mailContent.getRecipient().getEmail() + ".pdf");
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            fileOutputStream.write(java.util.Base64.getDecoder().decode(mailContent.getPdf()));
-
             if(!Objects.equals(mail.getSession().getProperty("mail.send"), "true")) return;
             mail.setFrom(new InternetAddress(session.getProperty("mail.from")));
             Address[] toAddresses = new Address[1];
@@ -52,18 +49,22 @@ public class CommunicationServiceImpl implements CommunicationService {
              if (mailContent.getBcc() != null && mailContent.getCc().length > 0) {
                  mail.setRecipients(javax.mail.Message.RecipientType.BCC, getAddresses(mailContent.getBcc()));
              }
-
             mail.setSubject(mailContent.getSubject());
             mail.setSentDate(new Date());
             MimeBodyPart mailBody = new MimeBodyPart();
             mailBody.setText(mailContent.getBody());
-            MimeBodyPart attachment = new MimeBodyPart();
-            attachment.attachFile(file);
             Multipart multiPart = new MimeMultipart();
             multiPart.addBodyPart(mailBody);
-            multiPart.addBodyPart(attachment);
             mail.setContent(multiPart);
-
+            MimeBodyPart attachment = new MimeBodyPart();
+            for (MailAttachment mailAttachment : mailContent.getMailAttachments()) {
+                if(mailAttachment.getData() != null) {
+                    DataSource ds = new ByteArrayDataSource(java.util.Base64.getDecoder().decode(mailAttachment.getData()), mailAttachment.getContentType());
+                    attachment.setDataHandler(new DataHandler(ds));
+                    attachment.setFileName(mailAttachment.getName());
+                    multiPart.addBodyPart(attachment);
+                }
+            }
             Thread t =  Thread.currentThread();
             ClassLoader ccl = t.getContextClassLoader();
             t.setContextClassLoader(session.getClass().getClassLoader());
