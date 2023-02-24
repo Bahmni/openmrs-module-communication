@@ -1,7 +1,7 @@
 name: Build and Publish package
 on:
   push:
-    branches: [ main, BAH-2189 ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
