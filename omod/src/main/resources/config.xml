@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//OpenMRS//DTD OpenMRS Config 1.0//EN" "http://resources.openmrs.org/doctype/config-1.6.dtd">
+
+<module configVersion="1.6">
+
+    <id>communication</id>
+    <name>Communication</name>
+    <version>1.0.0-SNAPSHOT</version>
+    <description>Provides communication services like sending mail</description>
+    <package>org.bahmni.module.communication</package>
+    <author>Bahmni</author>
+
+    <activator>org.bahmni.module.communication.CommunicationActivator</activator>
+
+    <require_version>1.11.6</require_version>
+
+    <messages>
+        <lang>en</lang>
+        <file>messages.properties</file>
+    </messages>
+    <messages>
+        <lang>fr</lang>
+        <file>messages_fr.properties</file>
+    </messages>
+    <messages>
+        <lang>es</lang>
+        <file>messages_es.properties</file>
+    </messages>
+
+    <!-- AOP -->
+    <!-- Required Privileges -->
+    <privilege>
+        <name>Send Email</name>
+        <description>Will give access to send email</description>
+    </privilege>
+
+</module>
