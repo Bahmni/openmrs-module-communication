@@ -7,15 +7,15 @@
     <groupId>org.bahmni.module</groupId>
     <artifactId>communication</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <name>Bahmni Communication Module</name>
     <description>OpenMRS Module for Email, SMS Notifications</description>
     <url>https://demo.mybahmni.org/bahmni/home/index.html</url>
 
     <licenses>
         <license>
-            <name>GNU AFFERO GENERAL PUBLIC LICENSE</name>
-            <url>https://www.gnu.org/licenses/agpl-3.0.txt</url>
+            <name>Mozilla Public License 2.0 with Healthcare Disclaimer</name>
+            <url>https://openmrs.org/license</url>
         </license>
     </licenses>
 
