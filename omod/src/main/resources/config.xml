@@ -3,14 +3,14 @@
 
 <module configVersion="1.6">
 
-    <id>communication</id>
-    <name>Communication</name>
-    <version>1.0.0-SNAPSHOT</version>
-    <description>Provides communication services like sending mail</description>
-    <package>org.bahmni.module.communication</package>
+    <id>${project.parent.artifactId}</id>
+    <name>${project.parent.name}</name>
+    <version>${project.parent.version}</version>
+    <description>${project.parent.description}</description>
+    <package>org.bahmni.module.${project.parent.artifactId}</package>
     <author>Bahmni</author>
 
-    <activator>org.bahmni.module.communication.CommunicationActivator</activator>
+    <activator>org.bahmni.module.${project.parent.artifactId}.CommunicationActivator</activator>
 
     <require_version>1.11.6</require_version>
 
