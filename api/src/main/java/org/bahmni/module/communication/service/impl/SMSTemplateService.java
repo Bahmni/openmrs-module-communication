@@ -28,7 +28,7 @@ public class SMSTemplateService {
         String helpdeskNumber = Context.getAdministrationService().getGlobalPropertyObject("clinic.helpDeskNumber").getPropertyValue();
         String clinicTime = Context.getAdministrationService().getGlobalPropertyObject("clinic.clinicTimings").getPropertyValue();
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("location", Context.getUserContext().getLocation().getName());//change to new location
+        arguments.put("location", Context.getUserContext().getLocation().getName());
         arguments.put("identifier", patient.getPatientIdentifier().getIdentifier());
         arguments.put("patientname", patient.getGivenName() + " " + patient.getFamilyName());
         arguments.put("gender", patient.getGender());
