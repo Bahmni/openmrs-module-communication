@@ -1,4 +1,3 @@
 package org.bahmni.module.communication;
 
-public class ModuleDescriptor {
-}
+public class ModuleDescriptor {}

@@ -10,8 +10,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MailAttachment {
-    private String contentType;
-    private String name;
-    private String data;
-    private String URL;
+	
+	private String contentType;
+	
+	private String name;
+	
+	private String data;
+	
+	private String URL;
 }

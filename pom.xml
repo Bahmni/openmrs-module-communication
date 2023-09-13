@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.openmrs.maven.parents</groupId>
-        <artifactId>maven-parent-openmrs-module</artifactId>
-        <version>1.1.1</version>
-    </parent>
+<!--    <parent>-->
+<!--        <groupId>org.openmrs.maven.parents</groupId>-->
+<!--        <artifactId>maven-parent-openmrs-module</artifactId>-->
+<!--        <version>1.1.1</version>-->
+<!--    </parent>-->
 
     <groupId>org.bahmni.module</groupId>
     <artifactId>communication</artifactId>
@@ -46,12 +46,18 @@
     </modules>
 
     <properties>
-        <openmrsPlatformVersion>2.5.10</openmrsPlatformVersion>
-        <jacocoVersion>0.7.9</jacocoVersion>
-        <javaxMailVersion>1.6.2</javaxMailVersion>
-        <powerMockVersion>2.0.7</powerMockVersion>
-        <mockitoVersion>3.5.11</mockitoVersion>
+        <openmrs.platform.version>2.4.2</openmrs.platform.version>
+        <!--test dependencies-->
         <junitVersion>4.13</junitVersion>
+        <powerMockVersion>2.0.7</powerMockVersion>
+        <hamcrestVersion>2.2</hamcrestVersion>
+        <mockitoVersion>3.5.11</mockitoVersion>
+        <argLine>-Xmx1024m</argLine>
+        <jacocoVersion>0.7.9</jacocoVersion>
+        <openmrsAtomfeedVersion>2.6.2</openmrsAtomfeedVersion>
+        <atomfeed.version>1.10.1</atomfeed.version>
+        <javaxMail.version>1.6.2</javaxMail.version>
+        <webServices.version>2.29.0</webServices.version>
     </properties>
 
     <build>
@@ -87,6 +93,7 @@
                         </execution>
                     </executions>
                 </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
@@ -126,40 +133,6 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.sun.mail</groupId>
-                <artifactId>javax.mail</artifactId>
-                <version>${javaxMailVersion}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.18.20</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.openmrs.api</groupId>
-                <artifactId>openmrs-api</artifactId>
-                <version>${openmrsPlatformVersion}</version>
-                <type>jar</type>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.openmrs.api</groupId>
-                <artifactId>openmrs-api</artifactId>
-                <version>${openmrs.platform.version}</version>
-                <type>test-jar</type>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.openmrs.test</groupId>
-                <artifactId>openmrs-test</artifactId>
-                <version>${openmrsPlatformVersion}</version>
-                <type>pom</type>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.powermock</groupId>
                 <artifactId>powermock-module-junit4</artifactId>
                 <version>${powerMockVersion}</version>
@@ -169,6 +142,100 @@
                 <groupId>org.powermock</groupId>
                 <artifactId>powermock-api-mockito2</artifactId>
                 <version>${powerMockVersion}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.bahmni.module</groupId>
+                <artifactId>teleconsultation-api</artifactId>
+                <version>1.0.0</version>
+                <type>jar</type>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.bahmni.module</groupId>
+                <artifactId>appointments-api</artifactId>
+                <version>1.8.0-SNAPSHOT</version>
+                <type>jar</type>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.20</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.bahmni.module</groupId>
+                <artifactId>appointments-omod</artifactId>
+                <version>1.8.0-SNAPSHOT</version>
+                <type>jar</type>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.bahmni.module</groupId>
+                <artifactId>bahmni-events-api</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+                <type>jar</type>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.bahmni.module</groupId>
+                <artifactId>web-clients</artifactId>
+                <version>0.94.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openmrs.test</groupId>
+                <artifactId>openmrs-test</artifactId>
+                <version>${openmrs.platform.version}</version>
+                <type>pom</type>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openmrs.api</groupId>
+                <artifactId>openmrs-api</artifactId>
+                <version>${openmrs.platform.version}</version>
+                <type>jar</type>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openmrs.tools</groupId>
+                <artifactId>openmrs-tools</artifactId>
+                <version>${openmrs.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openmrs.module</groupId>
+                <artifactId>webservices.rest-omod</artifactId>
+                <version>${webServices.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.openmrs.module</groupId>
+                <artifactId>webservices.rest-omod-common</artifactId>
+                <version>${webServices.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.openmrs.web</groupId>
+                <artifactId>openmrs-web</artifactId>
+                <version>${openmrs.platform.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openmrs.web</groupId>
+                <artifactId>openmrs-web</artifactId>
+                <version>${openmrs.platform.version}</version>
+                <type>test-jar</type>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -184,6 +251,12 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-all</artifactId>
+                <version>${hamcrestVersion}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <version>${mockitoVersion}</version>
@@ -195,6 +268,31 @@
                 </exclusions>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.3.1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockitoVersion}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.openmrs.api</groupId>
+                <artifactId>openmrs-api</artifactId>
+                <version>${openmrs.platform.version}</version>
+                <type>jar</type>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>3.0.1</version>
+                <scope>provided</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -202,13 +300,19 @@
         <repository>
             <id>openmrs-repo</id>
             <name>OpenMRS Nexus Repository</name>
-            <url>https://mavenrepo.openmrs.org/public</url>
+            <url>https://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
         </repository>
         <repository>
-            <id>central</id>
-            <name>Maven Repository Switchboard</name>
-            <layout>default</layout>
-            <url>https://repo1.maven.org/maven2</url>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>interval:10080</updatePolicy>
+            </snapshots>
         </repository>
         <repository>
             <id>sonatype-nexus-releases</id>
@@ -227,7 +331,7 @@
         <pluginRepository>
             <id>openmrs-repo</id>
             <name>OpenMRS Nexus Repository</name>
-            <url>https://mavenrepo.openmrs.org/public</url>
+            <url>https://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
@@ -246,6 +350,35 @@
     </distributionManagement>
 
     <profiles>
+        <profile>
+            <id>IT</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.17</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                                <configuration>
+                                    <argLine>-Xmx512m</argLine>
+                                    <includes>
+                                        <include>**/*IT.java</include>
+                                    </includes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>release-sign-artifacts</id>
             <activation>
@@ -294,27 +427,9 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>2.17</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                                <configuration>
-                                    <argLine>-Xmx512m</argLine>
-                                    <includes>
-                                        <include>**/*IT.java</include>
-                                    </includes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
                 </plugins>
             </build>
         </profile>
+
     </profiles>
 </project>

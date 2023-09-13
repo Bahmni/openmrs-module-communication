@@ -20,7 +20,7 @@
     <bean parent="serviceContext">
         <property name="moduleService">
             <list merge="true">
-                <value>org.bahmni.module.communication.api.impl.CommunicationServiceImpl</value>
+                <value>org.bahmni.module.communication.service.impl.CommunicationServiceImpl</value>
                 <ref bean="communicationService"/>
             </list>
         </property>
@@ -29,7 +29,7 @@
     <bean parent="serviceContext">
         <property name="moduleService">
             <list merge="true">
-                <value>org.bahmni.module.communication.api.impl.CommunicationServiceImpl</value>
+                <value>org.bahmni.module.communication.service.impl.CommunicationServiceImpl</value>
                 <ref bean="communicationService2"/>
             </list>
         </property>
@@ -40,7 +40,7 @@
             <ref bean="transactionManager"/>
         </property>
         <property name="target">
-            <bean class="org.bahmni.module.communication.api.impl.CommunicationServiceImpl">
+            <bean class="org.bahmni.module.communication.service.impl.CommunicationServiceImpl">
                 <property name="communicationService">
                     <ref bean="communicationService"/>
                 </property>

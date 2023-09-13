@@ -12,10 +12,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MailContent {
-    private String subject;
-    private String body;
-    private Recipient recipient;
-    private String[] cc;
-    private String[] bcc;
-    private List<MailAttachment> mailAttachments;
+	
+	private String subject;
+	
+	private String body;
+	
+	private Recipient recipient;
+	
+	private String[] cc;
+	
+	private String[] bcc;
+	
+	private List<MailAttachment> mailAttachments;
 }
