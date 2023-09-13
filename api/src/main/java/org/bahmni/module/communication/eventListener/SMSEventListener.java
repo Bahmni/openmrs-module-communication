@@ -7,6 +7,7 @@ import org.bahmni.module.events.api.model.BahmniEventType;
 import org.bahmni.module.events.api.model.Event;
 import org.openmrs.Patient;
 import org.openmrs.PersonAttribute;
+import org.openmrs.api.AdministrationService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appointments.service.AppointmentsService;
@@ -51,6 +52,10 @@ public class SMSEventListener {
 	}
 	
 	private void handlePatientCreatedEvent(SimpleObject payload) {
+		AdministrationService administrationService = Context.getService(AdministrationService.class);
+		boolean patientRegistrationSMSProperty = Boolean.valueOf(administrationService.getGlobalPropertyObject("enableRegistrationSMSAlert").getPropertyValue());
+		if (!patientRegistrationSMSProperty)
+			return;
 		SimpleObject person = payload.get("person");
 		if (person != null && person.containsKey("uuid")) {
 			PatientService patientService=Context.getRegisteredComponent("patientService",PatientService.class);
@@ -64,6 +69,10 @@ public class SMSEventListener {
 	}
 	
 	private void handleAppointmentCreatedEvent(AppointmentDefaultResponse appointment) {
+		AdministrationService administrationService = Context.getService(AdministrationService.class);
+		boolean appointmentBookingSMSProperty = Boolean.valueOf(administrationService.getGlobalPropertyObject("sms.enableAppointmentBookingSMSAlert").getPropertyValue());
+		if (!appointmentBookingSMSProperty)
+			return;
 		Patient patient = Context.getPatientService().getPatientByUuid((String) appointment.getPatient().get("uuid"));
 		String phoneNumber = getPhoneNumber(patient);
 		if (phoneNumber != null) {

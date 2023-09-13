@@ -10,15 +10,12 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.appointments.model.Appointment;
 import org.openmrs.module.appointments.service.AppointmentsService;
 import org.openmrs.scheduler.tasks.AbstractTask;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class SMSReminderForAppointment extends AbstractTask {
     private Log log = LogFactory.getLog(this.getClass());
 
-//    @Autowired
-//    SMSSenderService smsService;
 
     @Override
     public void execute() {
