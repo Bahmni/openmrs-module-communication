@@ -53,7 +53,7 @@ public class SMSEventListener {
 	
 	private void handlePatientCreatedEvent(SimpleObject payload) {
 		AdministrationService administrationService = Context.getService(AdministrationService.class);
-		boolean patientRegistrationSMSProperty = Boolean.valueOf(administrationService.getGlobalPropertyObject("enableRegistrationSMSAlert").getPropertyValue());
+		boolean patientRegistrationSMSProperty = Boolean.valueOf(administrationService.getGlobalPropertyObject("sms.enableRegistrationSMSAlert").getPropertyValue());
 		if (!patientRegistrationSMSProperty)
 			return;
 		SimpleObject person = payload.get("person");
