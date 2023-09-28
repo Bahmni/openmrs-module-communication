@@ -48,7 +48,7 @@
         </property>
     </bean>
 
-    <bean id="smsSenderService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+    <bean id="messageBuilderService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
         <property name="transactionManager">
             <ref bean="transactionManager"/>
         </property>
@@ -59,15 +59,15 @@
             <ref bean="transactionAttributeSource"/>
         </property>
         <property name="target">
-            <bean class="org.bahmni.module.communication.service.impl.SMSSenderServiceImpl">
+            <bean class="org.bahmni.module.communication.service.impl.MessageBuilderServiceImpl">
             </bean>
         </property>
     </bean>
     <bean parent="serviceContext">
         <property name="moduleService">
             <list>
-                <value>org.bahmni.module.communication.service.SMSSenderService</value>
-                <ref bean="smsSenderService" />
+                <value>org.bahmni.module.communication.service.MessageBuilderService</value>
+                <ref bean="messageBuilderService" />
             </list>
         </property>
     </bean>

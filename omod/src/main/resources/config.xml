@@ -12,9 +12,6 @@
 
     <activator>org.bahmni.module.communication.CommunicationActivator</activator>
     <require_version>1.11.6</require_version>
-    <require_modules>
-        <require_module>org.bahmni.module.events</require_module>
-    </require_modules>
 
     <messages>
         <lang>en</lang>
@@ -36,34 +33,6 @@
         <description>Will give access to send email</description>
     </privilege>
 
-
-    <globalProperty>
-        <property>SchedulerReminderBeforeHours</property>
-        <defaultValue>24</defaultValue>
-        <description>How many hours before the appointment should the reminder SMS be sent</description>
-    </globalProperty>
-
-    <globalProperty>
-        <property>sms.enableRegistrationSMSAlert</property>
-        <defaultValue>false</defaultValue>
-        <description>Boolean to enable sending sms when ptient registers</description>
-    </globalProperty>
-
-    <globalProperty>
-        <property>sms.enableAppointmentBookingSMSAlert</property>
-        <defaultValue>false</defaultValue>
-    </globalProperty>
-
-    <globalProperty>
-        <property>sms.enableAppointmentReminderSMSAlert</property>
-        <defaultValue>false</defaultValue>
-    </globalProperty>
-
-    <globalProperty>
-        <property>clinic.clinicTimings</property>
-        <defaultValue>Mon-Fri (09:00-22:00), Sat-Sun CLOSED</defaultValue>
-        <description>Global property having timings of particular clinic</description>
-    </globalProperty>
 
     <globalProperty>
         <property>sms.registrationSMSTemplate</property>
@@ -110,19 +79,8 @@
     </globalProperty>
 
     <globalProperty>
-        <property>bahmni.sms.timezone</property>
-        <defaultValue>IST</defaultValue>
-    </globalProperty>
-
-    <globalProperty>
         <property>bahmni.sms.url</property>
         <defaultValue>http://sms-service:8080/notification/sms</defaultValue>
     </globalProperty>
-
-    <globalProperty>
-        <property>bahmni.sms.dateformat</property>
-        <defaultValue>dd-MM-yyyy' Time 'HH:mm</defaultValue>
-    </globalProperty>
-
 
 </module>
