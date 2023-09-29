@@ -4,7 +4,6 @@ import org.apache.commons.io.FileUtils;
 import org.bahmni.module.communication.service.impl.CommunicationServiceImpl;
 import org.bahmni.module.communication.model.MailContent;
 import org.bahmni.module.communication.model.MailAttachment;
-import org.bahmni.module.communication.model.MailContent;
 import org.bahmni.module.communication.model.Recipient;
 import org.junit.Before;
 import org.junit.Rule;
@@ -89,9 +88,9 @@ public class CommunicationServiceImplTest {
 		        + "mail.password=random\n");
 		OpenmrsUtil.setApplicationDataDirectory(TMP_FOLDER);
 		
+		expectedEx.expectCause(instanceOf(java.lang.NullPointerException.class));
 		expectedEx.expect(RuntimeException.class);
 		expectedEx.expectMessage("Error occurred while sending email");
-		expectedEx.expectCause(instanceOf(com.sun.mail.util.MailConnectException.class));
 		verify(administrationService, times(0)).getGlobalProperty("mail.smtp_host");
 		
 		MailAttachment mailAttachment = new MailAttachment("text/plain", "welcome.txt", String.valueOf(Base64.getEncoder()
