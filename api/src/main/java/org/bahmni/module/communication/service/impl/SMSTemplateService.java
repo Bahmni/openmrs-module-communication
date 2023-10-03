@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 @Service
 public class SMSTemplateService {
-
+	
 	public String templateMessage(String smsTemplate, Map<String, String> arguments) {
 		String template = Context.getAdministrationService().getGlobalProperty(smsTemplate);
 		String formattedMessage = StringUtils.isBlank(template) ? Context.getMessageSourceService().getMessage(smsTemplate,

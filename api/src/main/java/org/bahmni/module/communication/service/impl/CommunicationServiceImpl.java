@@ -29,19 +29,20 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class CommunicationServiceImpl implements CommunicationService {
-
+	
 	@Autowired
 	MessagingUtility messagingUtility;
+	
 	private final static String SMS_URI = "bahmni.sms.url";
+	
 	private final static String SMS_TOKEN_KEY = "communications";
-
+	
 	private final Log log = LogFactory.getLog(this.getClass());
 	
-
 	@Override
 	public void sendEmail(MailContent mailContent) {
 		try {
-			Session session= messagingUtility.getSession();
+			Session session = messagingUtility.getSession();
 			MimeMessage mail = new MimeMessage(session);
 			if (!Objects.equals(mail.getSession().getProperty("mail.send"), "true"))
 				return;
@@ -91,7 +92,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 			throw new RuntimeException("Error occurred while sending email", exception);
 		}
 	}
-
+	
 	@Override
 	public void sendSMS(String phoneNumber, String message) {
 		try {
@@ -104,20 +105,21 @@ public class CommunicationServiceImpl implements CommunicationService {
 			String smsUrl = Context.getAdministrationService().getGlobalProperty("bahmni.sms.url", SMS_URI);
 			HttpPost request = new HttpPost(Context.getMessageSourceService().getMessage(smsUrl, null, new Locale("en")));
 			request.addHeader("content-type", "application/json");
-			String tokenFilePath = new File(OpenmrsUtil.getApplicationDataDirectory() + "/sms-tokens", SMS_TOKEN_KEY+"-token.txt")
-					.getAbsolutePath();
+			String tokenFilePath = new File(OpenmrsUtil.getApplicationDataDirectory() + "/sms-tokens", SMS_TOKEN_KEY
+			        + "-token.txt").getAbsolutePath();
 			String token = messagingUtility.getSMSTokenFromTokenFile(tokenFilePath);
-
+			
 			if (token == null) {
 				throw new RuntimeException("Token not found in the token file: " + tokenFilePath);
 			}
-
+			
 			request.addHeader("Authorization", "Bearer " + token);
 			request.setEntity(params);
 			CloseableHttpClient httpClient = HttpClients.createDefault();
 			httpClient.execute(request);
 			httpClient.close();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error("Exception occurred in sending SMS ", e);
 			throw new RuntimeException("Exception occurred in sending SMS ", e);
 		}
