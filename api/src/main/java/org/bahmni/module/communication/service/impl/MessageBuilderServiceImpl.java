@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class MessageBuilderServiceImpl implements MessageBuilderService {
 	
-	@Autowired
 	SMSTemplateService smsTemplateService;
 	
 	public static final String PATIENT_REGISTRATION_SMS_TEMPLATE = "sms.registrationSMSTemplate";
@@ -24,6 +23,10 @@ public class MessageBuilderServiceImpl implements MessageBuilderService {
 	public final static String APPOINTMENT_REMINDER_SMS_TEMPLATE = "sms.appointmentReminderSMSTemplate";
 	
 	public static final String HELPDESK_TEMPLATE = "sms.helpdeskTemplate";
+	
+	public void setSmsTemplateService(SMSTemplateService smsTemplateService) {
+		this.smsTemplateService = smsTemplateService;
+	}
 	
 	@Override
 	public String getRegistrationMessage(Map<String, String> arguments) {

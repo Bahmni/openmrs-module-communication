@@ -35,6 +35,9 @@
         </property>
         <property name="target">
             <bean class="org.bahmni.module.communication.service.impl.CommunicationServiceImpl">
+                <property name="messagingUtility">
+                    <bean class="org.bahmni.module.communication.service.impl.MessagingUtility"/>
+                </property>
             </bean>
         </property>
     </bean>
@@ -60,6 +63,9 @@
         </property>
         <property name="target">
             <bean class="org.bahmni.module.communication.service.impl.MessageBuilderServiceImpl">
+                <property name="smsTemplateService">
+                    <bean class="org.bahmni.module.communication.service.impl.SMSTemplateService"/>
+                </property>
             </bean>
         </property>
     </bean>

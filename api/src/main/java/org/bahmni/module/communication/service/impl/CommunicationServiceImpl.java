@@ -30,7 +30,6 @@ import java.util.Objects;
 
 public class CommunicationServiceImpl implements CommunicationService {
 	
-	@Autowired
 	MessagingUtility messagingUtility;
 	
 	private final static String SMS_URI = "bahmni.sms.url";
@@ -38,6 +37,10 @@ public class CommunicationServiceImpl implements CommunicationService {
 	private final static String SMS_TOKEN_KEY = "communications";
 	
 	private final Log log = LogFactory.getLog(this.getClass());
+	
+	public void setMessagingUtility(MessagingUtility messagingUtility) {
+		this.messagingUtility = messagingUtility;
+	}
 	
 	@Override
 	public void sendEmail(MailContent mailContent) {
