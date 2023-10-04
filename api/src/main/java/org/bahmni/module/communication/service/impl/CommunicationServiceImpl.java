@@ -108,8 +108,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 			String smsUrl = Context.getAdministrationService().getGlobalProperty("bahmni.sms.url", SMS_URI);
 			HttpPost request = new HttpPost(Context.getMessageSourceService().getMessage(smsUrl, null, new Locale("en")));
 			request.addHeader("content-type", "application/json");
-			String tokenFilePath = new File(OpenmrsUtil.getApplicationDataDirectory() + "/sms-tokens", SMS_TOKEN_KEY
-			        + "-token.txt").getAbsolutePath();
+			String tokenFilePath = new File("/tmp/sms-tokens", SMS_TOKEN_KEY + "-token.txt").getAbsolutePath();
 			String token = messagingUtility.getSMSTokenFromTokenFile(tokenFilePath);
 			
 			if (token == null) {
