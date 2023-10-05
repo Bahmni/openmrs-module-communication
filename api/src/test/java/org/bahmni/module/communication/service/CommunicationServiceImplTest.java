@@ -148,7 +148,7 @@ public class CommunicationServiceImplTest {
 		when(messagingUtility.getSMSTokenFromTokenFile(tokenFilePath)).thenReturn(expectedToken);
 		String SMS_URI = "bahmni.sms.url";
 		String smsUrl = "http://localhost:25/sms";
-		when(administrationService.getGlobalProperty("bahmni.sms.url", SMS_URI)).thenReturn(smsUrl);
+		when(administrationService.getGlobalProperty("bahmni.sms.url")).thenReturn(smsUrl);
 		when(Context.getMessageSourceService().getMessage(smsUrl, null, new Locale("en"))).thenReturn(smsUrl);
 		CloseableHttpClient httpClient = mock(CloseableHttpClient.class);
 		CloseableHttpResponse httpResponse = mock(CloseableHttpResponse.class);

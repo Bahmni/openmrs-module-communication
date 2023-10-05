@@ -13,7 +13,6 @@ import org.bahmni.module.communication.model.SMSRequest;
 import org.bahmni.module.communication.service.CommunicationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.util.OpenmrsUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -32,9 +31,9 @@ public class CommunicationServiceImpl implements CommunicationService {
 	
 	MessagingUtility messagingUtility;
 	
-	private final static String SMS_URI = "bahmni.sms.url";
+	//	private final static String SMS_URI = "bahmni.sms.url";
 	
-	private final static String SMS_TOKEN_KEY = "communications";
+	private final static String SMS_TOKEN_KEY_FILE = "sms-communications-token.txt";
 	
 	private final Log log = LogFactory.getLog(this.getClass());
 	
@@ -105,10 +104,15 @@ public class CommunicationServiceImpl implements CommunicationService {
 			ObjectMapper objMapper = new ObjectMapper();
 			String jsonObject = objMapper.writeValueAsString(smsRequest);
 			StringEntity params = new StringEntity(jsonObject);
-			String smsUrl = Context.getAdministrationService().getGlobalProperty("bahmni.sms.url", SMS_URI);
+			String smsUrl = Context.getAdministrationService().getGlobalProperty("bahmni.sms.url");
+			if (smsUrl == null || smsUrl.isEmpty()) {
+				log.info("Since SMSUrl property not set .SMS not sent.");
+				return;
+			}
 			HttpPost request = new HttpPost(Context.getMessageSourceService().getMessage(smsUrl, null, new Locale("en")));
 			request.addHeader("content-type", "application/json");
-			String tokenFilePath = new File("/tmp/sms-tokens", SMS_TOKEN_KEY + "-token.txt").getAbsolutePath();
+			String tokenFilePath = new File(OpenmrsUtil.getApplicationDataDirectory() + "/sms-tokens", SMS_TOKEN_KEY_FILE)
+			        .getAbsolutePath();
 			String token = messagingUtility.getSMSTokenFromTokenFile(tokenFilePath);
 			
 			if (token == null) {
