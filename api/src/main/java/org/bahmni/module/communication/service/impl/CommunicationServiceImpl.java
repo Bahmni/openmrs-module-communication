@@ -111,7 +111,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 			}
 			HttpPost request = new HttpPost(Context.getMessageSourceService().getMessage(smsUrl, null, new Locale("en")));
 			request.addHeader("content-type", "application/json");
-//			String tokenFilePath = new File(OpenmrsUtil.getApplicationDataDirectory() + "/sms-tokens", SMS_TOKEN_KEY_FILE)
+//			String tokenFilePath = new File(OpenmrsUtil.getApplicationDataDirectory() + "/sms-token", SMS_TOKEN_KEY_FILE)
 //			        .getAbsolutePath();
 //			String token = messagingUtility.getSMSTokenFromTokenFile(tokenFilePath);
 //
