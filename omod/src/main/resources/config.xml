@@ -36,7 +36,7 @@
 
     <globalProperty>
         <property>sms.registrationSMSTemplate</property>
-        <defaultValue>Thank you for registering at {location}. Please note your Patient Registration Details-{identifier}, name:{patientname}, {gender},Age- {age} years\nFor any queries call us on {helpdesknumber}. Clinic Timings: {facilitytimings}.</defaultValue>
+        <defaultValue>Thank you for registering at {location}. Please note your Patient Registration Details-{identifier}, name:{patientname}, {gender},Age- {age} years\nFor any queries call us on {helpdesknumber}.</defaultValue>
         <description>Template of sms being sent when patient registers</description>
     </globalProperty>
 
