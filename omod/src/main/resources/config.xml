@@ -11,7 +11,6 @@
     <author>Bahmni</author>
 
     <activator>org.bahmni.module.communication.CommunicationActivator</activator>
-
     <require_version>1.11.6</require_version>
 
     <messages>
@@ -33,5 +32,55 @@
         <name>Send Email</name>
         <description>Will give access to send email</description>
     </privilege>
+
+
+    <globalProperty>
+        <property>sms.registrationSMSTemplate</property>
+        <defaultValue>Thank you for registering at {location}. Please note your Patient Registration Details-{identifier}, name:{patientname}, {gender},Age- {age} years\nFor any queries call us on {helpdesknumber}.</defaultValue>
+        <description>Template of sms being sent when patient registers</description>
+    </globalProperty>
+
+
+    <globalProperty>
+        <property>sms.appointmentReminderSMSTemplate</property>
+        <defaultValue>This is a reminder for upcoming Appointment for {patientName}:{identifier}\non Date:{date} for {service} at {facilityname}.</defaultValue>
+        <description>Global property of message to send as appointment reminder</description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>sms.helpdeskTemplate</property>
+        <defaultValue>For any queries call us on {helpdeskNumber}.</defaultValue>
+        <description>Global property to be used to fetch helpdesk template</description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>sms.providersTemplate</property>
+        <defaultValue>Your appointment is booked with {providerName}.</defaultValue>
+        <description>Global property to be used to fetch providers template</description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>sms.appointmentBookingSMSTemplate</property>
+        <defaultValue>Appointment for {patientName}, {identifier} on {date} for {service} is booked at {facilityname}.</defaultValue>
+        <description>Global property of message to send when appointment booking is done</description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>sms.teleconsultationLinkTemplate</property>
+        <defaultValue>As you have chosen to book a teleconsultation-appointment click on the link {teleconsultationLink} on {date} to join the consultation.
+        </defaultValue>
+        <description>Global property to be used to fetch teleconsultation template</description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>sms.recurringAppointmentTemplate</property>
+        <defaultValue>A recurring appointment for {patientName}, {identifier} for {service} is booked for every {recurringPeriod} {recurringType} {recurringDays} at {facilityname}. Your next appointment is on {date}.</defaultValue>
+        <description>Global property for appointment recurring template</description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>bahmni.sms.url</property>
+        <defaultValue>http://sms-service:8080/notification/sms</defaultValue>
+    </globalProperty>
 
 </module>

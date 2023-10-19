@@ -34,16 +34,48 @@
             <ref bean="transactionAttributeSource"/>
         </property>
         <property name="target">
-            <bean class="org.bahmni.module.communication.api.impl.CommunicationServiceImpl">
+            <bean class="org.bahmni.module.communication.service.impl.CommunicationServiceImpl">
+                <property name="messagingUtility">
+                    <bean class="org.bahmni.module.communication.service.impl.MessagingUtility"/>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean parent="serviceContext">
+        <property name="moduleService">
+            <list>
+                <value>org.bahmni.module.communication.service.CommunicationService</value>
+                <ref bean="communicationService" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="messageBuilderService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager">
+            <ref bean="transactionManager"/>
+        </property>
+        <property name="preInterceptors">
+            <ref bean="serviceInterceptors"/>
+        </property>
+        <property name="transactionAttributeSource">
+            <ref bean="transactionAttributeSource"/>
+        </property>
+        <property name="target">
+            <bean class="org.bahmni.module.communication.service.impl.MessageBuilderServiceImpl">
+                <property name="smsTemplateService">
+                    <bean class="org.bahmni.module.communication.service.impl.SMSTemplateService"/>
+                </property>
             </bean>
         </property>
     </bean>
     <bean parent="serviceContext">
         <property name="moduleService">
             <list>
-                <value>org.bahmni.module.communication.api.CommunicationService</value>
-                <ref bean="communicationService" />
+                <value>org.bahmni.module.communication.service.MessageBuilderService</value>
+                <ref bean="messageBuilderService" />
             </list>
         </property>
     </bean>
+
 </beans>
