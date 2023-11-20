@@ -111,15 +111,15 @@ public class CommunicationServiceImpl implements CommunicationService {
 			}
 			HttpPost request = new HttpPost(Context.getMessageSourceService().getMessage(smsUrl, null, new Locale("en")));
 			request.addHeader("content-type", "application/json");
-//			String tokenFilePath = new File(OpenmrsUtil.getApplicationDataDirectory() + "/sms-token", SMS_TOKEN_KEY_FILE)
-//			        .getAbsolutePath();
-//			String token = messagingUtility.getSMSTokenFromTokenFile(tokenFilePath);
-//
-//			if (token == null) {
-//				throw new RuntimeException("Token not found in the token file: " + tokenFilePath);
-//			}
-//
-//			request.addHeader("Authorization", "Bearer " + token);
+			String tokenFilePath = new File(OpenmrsUtil.getApplicationDataDirectory() + "/sms-token", SMS_TOKEN_KEY_FILE)
+			        .getAbsolutePath();
+			String token = messagingUtility.getSMSTokenFromTokenFile(tokenFilePath);
+			
+			if (token == null) {
+				throw new RuntimeException("Token not found in the token file: " + tokenFilePath);
+			}
+			
+			request.addHeader("Authorization", "Bearer " + token);
 			request.setEntity(params);
 			CloseableHttpClient httpClient = HttpClients.createDefault();
 			httpClient.execute(request);
