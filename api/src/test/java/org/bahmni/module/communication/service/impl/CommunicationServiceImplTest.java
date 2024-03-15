@@ -1,4 +1,4 @@
-package org.bahmni.module.communication.service;
+package org.bahmni.module.communication.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.methods.HttpPost;

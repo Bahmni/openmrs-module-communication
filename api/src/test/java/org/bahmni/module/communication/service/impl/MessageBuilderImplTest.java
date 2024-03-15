@@ -1,4 +1,4 @@
-package org.bahmni.module.communication.service;
+package org.bahmni.module.communication.service.impl;
 
 import org.bahmni.module.communication.service.impl.MessageBuilderServiceImpl;
 import org.bahmni.module.communication.service.impl.SMSTemplateService;
