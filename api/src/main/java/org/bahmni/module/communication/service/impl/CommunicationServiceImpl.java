@@ -49,14 +49,8 @@ public class CommunicationServiceImpl implements CommunicationService {
 			MimeMessage mail = new MimeMessage(session);
 			mail.setFrom(new InternetAddress(session.getProperty("mail.from")));
 			mail.setRecipients(javax.mail.Message.RecipientType.TO, mailContent.getRecipient().getEmail());
-
-			if (mailContent.getCc() != null && mailContent.getCc().length > 0) {
-				mail.setRecipients(javax.mail.Message.RecipientType.CC, messagingUtility.getAddresses(mailContent.getCc()));
-			}
-			if (mailContent.getBcc() != null && mailContent.getBcc().length > 0) {
-				mail.setRecipients(javax.mail.Message.RecipientType.BCC, messagingUtility.getAddresses(mailContent.getBcc()));
-			}
-
+			mail.setRecipients(javax.mail.Message.RecipientType.CC, messagingUtility.getAddresses(mailContent.getCc()));
+			mail.setRecipients(javax.mail.Message.RecipientType.BCC, messagingUtility.getAddresses(mailContent.getBcc()));
 			mail.setSubject(mailContent.getSubject());
 			mail.setSentDate(new Date());
 			MimeBodyPart mailBody = new MimeBodyPart();
