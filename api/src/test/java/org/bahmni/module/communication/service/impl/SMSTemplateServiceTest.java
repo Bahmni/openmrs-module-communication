@@ -47,58 +47,58 @@ public class SMSTemplateServiceTest {
 
     @Test
     public void shouldReturnFormattedMessageWhenGlobalPropertyIsSet() {
-        String smsTemplate = "template.key";
-        String expectedTemplate = "Hello {name}, Your appointment is on {date}.";
-        Map<String, String> arguments = new HashMap<>();
-        arguments.put("name", "John");
-        arguments.put("date", "2024-03-15");
-        when(administrationService.getGlobalProperty(smsTemplate)).thenReturn(expectedTemplate);
+        String templateKey = "template.key";
+        String template = "Hello {name}, Your appointment is on {date}.";
+        Map<String, String> placeholderValues = new HashMap<>();
+        placeholderValues.put("name", "John");
+        placeholderValues.put("date", "2024-03-15");
+        when(administrationService.getGlobalProperty(templateKey)).thenReturn(template);
 
-        String result = smsTemplateService.templateMessage(smsTemplate, arguments);
+        String message = smsTemplateService.message(templateKey, placeholderValues);
 
-        assertEquals("Hello John, Your appointment is on 2024-03-15.", result);
+        assertEquals("Hello John, Your appointment is on 2024-03-15.", message);
     }
 
     @Test
     public void shouldReturnFormattedMessageWhenGlobalPropertyIsNotSet() {
-        String smsTemplate = "template.key";
-        String expectedTemplate = "Hello {name}, Your appointment is on {date}.";
-        Map<String, String> arguments = new HashMap<>();
-        arguments.put("name", "John");
-        arguments.put("date", "2024-03-15");
-        when(administrationService.getGlobalProperty(smsTemplate)).thenReturn("");
-        when(messageSourceService.getMessage(smsTemplate, null, new Locale("en"))).thenReturn(expectedTemplate);
+        String templateKey = "template.key";
+        String template = "Hello {name}, Your appointment is on {date}.";
+        Map<String, String> placeholderValues = new HashMap<>();
+        placeholderValues.put("name", "John");
+        placeholderValues.put("date", "2024-03-15");
+        when(administrationService.getGlobalProperty(templateKey)).thenReturn("");
+        when(messageSourceService.getMessage(templateKey, null, new Locale("en"))).thenReturn(template);
 
-        String result = smsTemplateService.templateMessage(smsTemplate, arguments);
+        String message = smsTemplateService.message(templateKey, placeholderValues);
 
-        assertEquals("Hello John, Your appointment is on 2024-03-15.", result);
+        assertEquals("Hello John, Your appointment is on 2024-03-15.", message);
     }
 
     @Test
     public void shouldHandlePlaceholderWithSpacesAndUpperCase() {
-        String smsTemplate = "template.key";
-        String expectedTemplate = "Hello {name}, Your appointment is on {PRESENT DATE}.";
-        Map<String, String> arguments = new HashMap<>();
-        arguments.put("name", "John");
-        arguments.put("presentdate", "2024-03-15");
-        when(administrationService.getGlobalProperty(smsTemplate)).thenReturn(expectedTemplate);
+        String templateKey = "template.key";
+        String template = "Hello {name}, Your appointment is on {PRESENT DATE}.";
+        Map<String, String> placeholderValues = new HashMap<>();
+        placeholderValues.put("name", "John");
+        placeholderValues.put("presentdate", "2024-03-15");
+        when(administrationService.getGlobalProperty(templateKey)).thenReturn(template);
 
-        String result = smsTemplateService.templateMessage(smsTemplate, arguments);
+        String message = smsTemplateService.message(templateKey, placeholderValues);
 
-        assertEquals("Hello John, Your appointment is on 2024-03-15.", result);
+        assertEquals("Hello John, Your appointment is on 2024-03-15.", message);
     }
 
     @Test
     public void shouldReplaceNewlineWithSystemSpecificLineSeparator() {
-        String smsTemplate = "template.key";
-        String expectedTemplate = "Hello {name},\nYour appointment is on {date}.";
-        Map<String, String> arguments = new HashMap<>();
-        arguments.put("name", "John");
-        arguments.put("date", "2024-03-15");
-        when(administrationService.getGlobalProperty(smsTemplate)).thenReturn(expectedTemplate);
+        String templateKey = "template.key";
+        String template = "Hello {name},\nYour appointment is on {date}.";
+        Map<String, String> placeholderValues = new HashMap<>();
+        placeholderValues.put("name", "John");
+        placeholderValues.put("date", "2024-03-15");
+        when(administrationService.getGlobalProperty(templateKey)).thenReturn(template);
 
-        String result = smsTemplateService.templateMessage(smsTemplate, arguments);
+        String message = smsTemplateService.message(templateKey, placeholderValues);
 
-        assertEquals("Hello John," + System.lineSeparator() + "Your appointment is on 2024-03-15.", result);
+        assertEquals("Hello John," + System.lineSeparator() + "Your appointment is on 2024-03-15.", message);
     }
 }
