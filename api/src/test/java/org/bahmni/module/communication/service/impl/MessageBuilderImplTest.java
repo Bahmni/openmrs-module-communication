@@ -21,127 +21,113 @@ public class MessageBuilderImplTest {
     SMSTemplateService smsTemplateService;
 
     @Test
-    public void testGetRegistrationMessage() {
+    public void shouldGenerateRegistrationMessage() {
         Map<String, String> placeholderValues = Collections.singletonMap("key", "value");
-        String expectedTemplate = "Registration SMS Template";
-
+        String expectedMessage = "Test Registration Message";
         when(smsTemplateService.message(MessageBuilderServiceImpl.PATIENT_REGISTRATION_SMS_TEMPLATE_KEY, placeholderValues))
-                .thenReturn(expectedTemplate);
+                .thenReturn(expectedMessage);
 
         String result = messageBuilderService.getRegistrationMessage(placeholderValues);
 
-        assertEquals(expectedTemplate, result);
+        assertEquals(expectedMessage, result);
     }
 
     @Test
-    public void testGetAppointmentBookingMessage() {
+    public void shouldGenerateAppointmentBookingMessage() {
         Map<String, String> placeholderValues = new HashMap<>();
-        placeholderValues.put("key", "value");
         placeholderValues.put("appointmentKind", "Virtual");
         List<String> providers = Collections.singletonList("Provider1");
-        String expectedTemplate = "Appointment Booking SMS Template";
 
         when(smsTemplateService.message(MessageBuilderServiceImpl.APPOINTMENT_BOOKING_SMS_TEMPLATE_KEY, placeholderValues))
-                .thenReturn(expectedTemplate);
+                .thenReturn("Your appointment is booked.");
+        when(smsTemplateService.message(MessageBuilderServiceImpl.APPOINTMENT_PROVIDER_SMS_TEMPLATE_KEY, placeholderValues))
+                .thenReturn("Appointment is booked with Provider1.");
+        when(smsTemplateService.message(MessageBuilderServiceImpl.APPOINTMENT_TELECONSULTATION_LINK_SMS_TEMPLATE_KEY, placeholderValues))
+                .thenReturn("Click on this link to join the consultation.");
+        when(smsTemplateService.message(MessageBuilderServiceImpl.HELPDESK_SMS_TEMPLATE_KEY, placeholderValues))
+                .thenReturn("For any queries contact us.");
 
         String result = messageBuilderService.getAppointmentBookingMessage(placeholderValues, providers);
-        String expectedResult = expectedTemplate + "nullnullnull";
-        assertEquals(expectedResult, result);
+
+        assertEquals("Your appointment is booked.Appointment is booked with Provider1.Click on this link to join the consultation." +
+                "For any queries contact us.", result);
     }
 
     @Test
-    public void testGetRecurringAppointmentBookingMessage() {
+    public void shouldGenerateRecurringAppointmentBookingMessage() {
         Map<String, String> placeholderValues = new HashMap<>();
-        placeholderValues.put("key", "value");
         placeholderValues.put("appointmentKind", "Virtual");
         List<String> providers = Collections.singletonList("Provider1");
-        String expectedTemplate = "Recurring Appointment Booking SMS Template";
 
         when(smsTemplateService.message(MessageBuilderServiceImpl.RECURRING_APPOINTMENT_BOOKING_SMS_TEMPLATE_KEY, placeholderValues))
-                .thenReturn(expectedTemplate);
+                .thenReturn("Your recurring appointment is booked.");
+        when(smsTemplateService.message(MessageBuilderServiceImpl.APPOINTMENT_PROVIDER_SMS_TEMPLATE_KEY, placeholderValues))
+                .thenReturn("Appointment is booked with Provider1.");
+        when(smsTemplateService.message(MessageBuilderServiceImpl.APPOINTMENT_TELECONSULTATION_LINK_SMS_TEMPLATE_KEY, placeholderValues))
+                .thenReturn("Click on this link to join the consultation.");
+        when(smsTemplateService.message(MessageBuilderServiceImpl.HELPDESK_SMS_TEMPLATE_KEY, placeholderValues))
+                .thenReturn("For any queries contact us.");
 
         String result = messageBuilderService.getRecurringAppointmentBookingMessage(placeholderValues, providers);
 
-        String expectedResult = expectedTemplate + "nullnullnull";
-        assertEquals(expectedResult, result);
+        assertEquals("Your recurring appointment is booked.Appointment is booked with Provider1.Click on this link to join the consultation." +
+                "For any queries contact us.", result);
     }
 
     @Test
-    public void testGetAppointmentReminderMessage() {
+    public void shouldGenerateAppointmentReminderMessage() {
         Map<String, String> placeholderValues = new HashMap<>();
-        placeholderValues.put("key", "value");
         placeholderValues.put("appointmentKind", "Virtual");
         List<String> providers = Collections.singletonList("Provider1");
-        String expectedTemplate = "Appointment Reminder SMS Template";
 
         when(smsTemplateService.message(MessageBuilderServiceImpl.APPOINTMENT_REMINDER_SMS_TEMPLATE_KEY, placeholderValues))
-                .thenReturn(expectedTemplate);
+                .thenReturn("Reminder for your appointment.");
+        when(smsTemplateService.message(MessageBuilderServiceImpl.APPOINTMENT_PROVIDER_SMS_TEMPLATE_KEY, placeholderValues))
+                .thenReturn("Appointment is booked with Provider1.");
+        when(smsTemplateService.message(MessageBuilderServiceImpl.APPOINTMENT_TELECONSULTATION_LINK_SMS_TEMPLATE_KEY, placeholderValues))
+                .thenReturn("Click on this link to join the consultation.");
+        when(smsTemplateService.message(MessageBuilderServiceImpl.HELPDESK_SMS_TEMPLATE_KEY, placeholderValues))
+                .thenReturn("For any queries contact us.");
 
         String result = messageBuilderService.getAppointmentReminderMessage(placeholderValues, providers);
 
-        String expectedResult = expectedTemplate + "nullnullnull";
-        assertEquals(expectedResult, result);
+        assertEquals("Reminder for your appointment.Appointment is booked with Provider1.Click on this link to join the consultation." +
+                "For any queries contact us.", result);
     }
 
     @Test
-    public void testGenerateAppointmentMessage() {
+    public void shouldNotIncludeProviderInformationInAppointmentMessageWhenProviderIsEmpty() {
         Map<String, String> placeholderValues = new HashMap<>();
-        placeholderValues.put("key", "value");
-        placeholderValues.put("appointmentKind", "Virtual");
-        List<String> providers = Collections.singletonList("Provider1");
-        String smsTemplateKey = "sms.appointmentTemplateKey";
-        String expectedMessage = "Generated Appointment SMS Template";
-
-        when(smsTemplateService.message(smsTemplateKey, placeholderValues)).thenReturn(expectedMessage);
-        when(smsTemplateService.message(MessageBuilderServiceImpl.APPOINTMENT_PROVIDER_SMS_TEMPLATE_KEY, placeholderValues))
-                .thenReturn("Provider Template");
-        when(smsTemplateService.message(MessageBuilderServiceImpl.APPOINTMENT_TELECONSULTATION_LINK_SMS_TEMPLATE_KEY, placeholderValues))
-                .thenReturn("Teleconsultation Link Template");
-        when(smsTemplateService.message(MessageBuilderServiceImpl.HELPDESK_SMS_TEMPLATE_KEY, placeholderValues))
-                .thenReturn("Helpdesk Template");
-
-        String result = messageBuilderService.generateAppointmentMessage(placeholderValues, providers, smsTemplateKey);
-
-        assertEquals("Generated Appointment SMS TemplateProvider TemplateTeleconsultation Link TemplateHelpdesk Template", result);
-    }
-
-    @Test
-    public void testGenerateAppointmentMessageWhenProviderIsEmpty() {
-        Map<String, String> placeholderValues = new HashMap<>();
-        placeholderValues.put("key", "value");
         placeholderValues.put("appointmentKind", "Virtual");
         List<String> providers = new ArrayList<>();
         String smsTemplateKey = "sms.appointmentTemplateKey";
-        String expectedMessage = "Generated Appointment SMS Template";
 
-        when(smsTemplateService.message(smsTemplateKey, placeholderValues)).thenReturn(expectedMessage);
+        when(smsTemplateService.message(smsTemplateKey, placeholderValues)).thenReturn("Your appointment is booked.");
         when(smsTemplateService.message(MessageBuilderServiceImpl.APPOINTMENT_TELECONSULTATION_LINK_SMS_TEMPLATE_KEY, placeholderValues))
-                .thenReturn("Teleconsultation Link Template");
+                .thenReturn("Click on this link to join the consultation.");
         when(smsTemplateService.message(MessageBuilderServiceImpl.HELPDESK_SMS_TEMPLATE_KEY, placeholderValues))
-                .thenReturn("Helpdesk Template");
+                .thenReturn("For any queries contact us.");
 
         String result = messageBuilderService.generateAppointmentMessage(placeholderValues, providers, smsTemplateKey);
 
-        assertEquals("Generated Appointment SMS TemplateTeleconsultation Link TemplateHelpdesk Template", result);
+        assertEquals("Your appointment is booked.Click on this link to join the consultation.For any queries contact us.", result);
     }
 
     @Test
-    public void testGenerateAppointmentMessageWhenAppointmentKindIsNotVirtual() {
+    public void shouldNotIncludeTeleconsultationLinkInAppointmentMessageWhenAppointmentKindIsNotVirtual() {
         Map<String, String> placeholderValues = new HashMap<>();
-        placeholderValues.put("key", "value");
         placeholderValues.put("appointmentKind", "InPerson");
         List<String> providers = Collections.singletonList("Provider1");
         String smsTemplateKey = "sms.appointmentTemplateKey";
-        String expectedMessage = "Generated Appointment SMS Template";
 
-        when(smsTemplateService.message(smsTemplateKey, placeholderValues)).thenReturn(expectedMessage);
+        when(smsTemplateService.message(smsTemplateKey, placeholderValues)).thenReturn("Your appointment is booked.");
         when(smsTemplateService.message(MessageBuilderServiceImpl.APPOINTMENT_PROVIDER_SMS_TEMPLATE_KEY, placeholderValues))
-                .thenReturn("Provider Template");
+                .thenReturn("Appointment is booked with Provider1.");
         when(smsTemplateService.message(MessageBuilderServiceImpl.HELPDESK_SMS_TEMPLATE_KEY, placeholderValues))
-                .thenReturn("Helpdesk Template");
+                .thenReturn("For any queries contact us.");
 
         String result = messageBuilderService.generateAppointmentMessage(placeholderValues, providers, smsTemplateKey);
 
-        assertEquals("Generated Appointment SMS TemplateProvider TemplateHelpdesk Template", result);
+        assertEquals("Your appointment is booked.Appointment is booked with Provider1.For any queries contact us.", result);
     }
 }

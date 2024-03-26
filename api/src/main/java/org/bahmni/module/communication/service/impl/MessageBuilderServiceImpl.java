@@ -5,6 +5,8 @@ import org.bahmni.module.communication.service.MessageBuilderService;
 import java.util.List;
 import java.util.Map;
 
+import static org.springframework.util.StringUtils.collectionToCommaDelimitedString;
+
 public class MessageBuilderServiceImpl implements MessageBuilderService {
 	
 	SMSTemplateService smsTemplateService;
@@ -50,7 +52,7 @@ public class MessageBuilderServiceImpl implements MessageBuilderService {
 	public String generateAppointmentMessage(Map<String, String> placeholderValues, List<String> providers, String smsTemplateKey) {
 		String smsTemplateMessage = smsTemplateService.message(smsTemplateKey, placeholderValues);
 		if (!providers.isEmpty()) {
-			placeholderValues.put("providername", org.springframework.util.StringUtils.collectionToCommaDelimitedString(providers));
+			placeholderValues.put("providername", collectionToCommaDelimitedString(providers));
 			smsTemplateMessage += smsTemplateService.message(APPOINTMENT_PROVIDER_SMS_TEMPLATE_KEY, placeholderValues);
 		}
 		if (placeholderValues.get("appointmentKind").equals("Virtual")) {
