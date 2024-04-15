@@ -3,7 +3,9 @@ package org.bahmni.module.communication.service.impl;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -41,6 +43,9 @@ public class MessagingUtilityTest {
 
     private MessagingUtility messagingUtility;
 
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
+
     @Before
     public void setUp() {
         PowerMockito.mockStatic(Context.class);
@@ -50,38 +55,38 @@ public class MessagingUtilityTest {
 
     @Test
     public void shouldReturnSessionFromMailConfigPropertiesFile() throws IOException {
-        String TMP_FOLDER = "/tmp";
-        final File file = new File(TMP_FOLDER + "/mail-config.properties");
+        final File file = folder.newFile("mail-config.properties");
         FileUtils.writeStringToFile(file, "mail.send=true\n" + "mail.transport.protocol=smtp\n"
                 + "mail.smtp.host=localhost\n" + "mail.smtp.port=25\n" + "mail.smtp.auth=false\n"
                 + "mail.smtp.starttls.enable=true\n" + "mail.from=dummy@bahmni.org\n", Charset.defaultCharset());
-        OpenmrsUtil.setApplicationDataDirectory(TMP_FOLDER);
+        OpenmrsUtil.setApplicationDataDirectory(file.getParent());
 
         Session session = messagingUtility.getSession();
 
+        assertEquals("true", session.getProperty("mail.send"));
+        assertEquals("smtp", session.getProperty("mail.transport.protocol"));
         assertEquals("localhost", session.getProperty("mail.smtp.host"));
-        file.delete();
+        assertEquals("25", session.getProperty("mail.smtp.port"));
+        assertEquals("false", session.getProperty("mail.smtp.auth"));
+        assertEquals("true", session.getProperty("mail.smtp.starttls.enable"));
+        assertEquals("dummy@bahmni.org", session.getProperty("mail.from"));
     }
 
     @Test
     public void shouldReturnSameSessionIfAlreadyInitialized() throws IOException {
-        String TMP_FOLDER = "/tmp";
-        final File file = new File(TMP_FOLDER + "/mail-config.properties");
-        FileUtils.writeStringToFile(file, "mail.send=true\n" + "mail.transport.protocol=smtp\n"
-                + "mail.smtp.host=localhost\n" + "mail.smtp.port=25\n" + "mail.smtp.auth=false\n"
-                + "mail.smtp.starttls.enable=true\n" + "mail.from=dummy@bahmni.org\n", Charset.defaultCharset());
-        OpenmrsUtil.setApplicationDataDirectory(TMP_FOLDER);
+        final File file = folder.newFile("mail-config.properties");
+        FileUtils.writeStringToFile(file, "mail.send=true", Charset.defaultCharset());
+        OpenmrsUtil.setApplicationDataDirectory(file.getParent());
 
         Session session1 = messagingUtility.getSession();
         Session session2 = messagingUtility.getSession();
 
         assertSame(session1, session2);
-        file.delete();
     }
 
     @Test
     public void shouldReturnSessionUsingOMRSPropertiesWhenMailConfigPropertiesFileDoesNotExist() {
-        when(administrationService.getGlobalProperty("mail.transport_protocol", "smtp")).thenReturn("");
+        when(administrationService.getGlobalProperty("mail.transport_protocol", "smtp")).thenReturn("smtp");
         when(administrationService.getGlobalProperty("mail.smtp_host", "")).thenReturn("localhost");
         when(administrationService.getGlobalProperty("mail.smtp_port", "25")).thenReturn("25");
         when(administrationService.getGlobalProperty("mail.smtp_auth", "false")).thenReturn("true");
@@ -95,7 +100,16 @@ public class MessagingUtilityTest {
 
         Session session = messagingUtility.getSession();
 
+        assertEquals("smtp", session.getProperty("mail.transport.protocol"));
         assertEquals("localhost", session.getProperty("mail.smtp.host"));
+        assertEquals("25", session.getProperty("mail.smtp.port"));
+        assertEquals("true", session.getProperty("mail.smtp.auth"));
+        assertEquals("true", session.getProperty("mail.smtp.starttls.enable"));
+        assertEquals("true", session.getProperty("mail.smtp.ssl.enable"));
+        assertEquals("false", session.getProperty("mail.debug"));
+        assertEquals("noreply@bahmni.org", session.getProperty("mail.from"));
+        assertEquals("test_user", session.getProperty("mail.user"));
+        assertEquals("test_password", session.getProperty("mail.password"));
     }
 
 
@@ -112,10 +126,7 @@ public class MessagingUtilityTest {
 
     @Test
     public void testGetAddressesShouldReturnEmptyAddressArrayWhenGivenNullInput() throws AddressException {
-        String[] givenAddresses = null;
-
-        Address[] addresses = messagingUtility.getAddresses(givenAddresses);
-
+        Address[] addresses = messagingUtility.getAddresses(null);
         assertEquals(0, addresses.length);
     }
 
@@ -131,15 +142,14 @@ public class MessagingUtilityTest {
 
     @Test
     public void testGetSMSTokenFromTokenFile() throws IOException {
-        String testTokenFilePath = "test.txt";
-        BufferedWriter writer = new BufferedWriter(new FileWriter(testTokenFilePath));
+        final File tokenFile = folder.newFile("test.txt");
+        BufferedWriter writer = new BufferedWriter(new FileWriter(tokenFile));
         writer.write("test_token");
         writer.close();
 
-        String token = messagingUtility.getSMSTokenFromTokenFile(testTokenFilePath);
-        assertEquals("test_token", token);
+        String token = messagingUtility.getSMSTokenFromTokenFile(tokenFile.getAbsolutePath());
 
-        new File(testTokenFilePath).delete();
+        assertEquals("test_token", token);
     }
 
     @Test
