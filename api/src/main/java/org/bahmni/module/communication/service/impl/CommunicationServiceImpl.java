@@ -30,8 +30,6 @@ public class CommunicationServiceImpl implements CommunicationService {
 
 	MessagingUtility messagingUtility;
 
-	//	private final static String SMS_URI = "bahmni.sms.url";
-
 	private final static String SMS_TOKEN_KEY_FILE = "sms-communications-token.txt";
 
 	private final Log log = LogFactory.getLog(this.getClass());
@@ -116,8 +114,8 @@ public class CommunicationServiceImpl implements CommunicationService {
 			httpClient.close();
 		}
 		catch (Exception e) {
-			log.error("Exception occurred in sending SMS ", e);
-			throw new RuntimeException("Exception occurred in sending SMS ", e);
+			log.error("Exception occurred in sending SMS", e);
+			throw new RuntimeException("Exception occurred in sending SMS", e);
 		}
 	}
 }

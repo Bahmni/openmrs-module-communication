@@ -210,6 +210,8 @@ public class CommunicationServiceImplTest {
         when(administrationService.getGlobalProperty("bahmni.sms.url")).thenReturn(smsUrl);
         when(messageSourceService.getMessage(smsUrl, null, new Locale("en"))).thenReturn(smsUrl);
 
-        assertThrows(RuntimeException.class, () -> communicationService.sendSMS("1234567890", "This is a test message"));
+        Exception expectedException = assertThrows(RuntimeException.class, () -> communicationService.sendSMS("1234567890", "This is a test message"));
+        assertEquals("Exception occurred in sending SMS", expectedException.getMessage());
+        assertEquals("Token not found in the token file: " + tokenFilePath, expectedException.getCause().getMessage());
     }
 }
