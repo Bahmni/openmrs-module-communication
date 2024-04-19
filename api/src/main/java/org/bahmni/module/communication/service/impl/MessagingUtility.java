@@ -68,7 +68,7 @@ public class MessagingUtility {
 		return new Address[0];
 	}
 	
-	public Properties mailSessionPropertiesFromPath() {
+	private Properties mailSessionPropertiesFromPath() {
 		Path propertyFilePath = Paths.get(OpenmrsUtil.getApplicationDataDirectory(), EMAIL_PROPERTIES_FILENAME);
 		if (Files.exists(propertyFilePath)) {
 			Properties properties = new Properties();
@@ -105,14 +105,10 @@ public class MessagingUtility {
 	
 	public String getSMSTokenFromTokenFile(String tokenFilePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(tokenFilePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                return line;
-            }
+            return reader.readLine();
         } catch (IOException e) {
             log.error("Error loading token file: " + tokenFilePath, e);
             throw new RuntimeException("Error loading token file: " + tokenFilePath, e);
         }
-        return null;
     }
 }

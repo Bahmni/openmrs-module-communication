@@ -10,23 +10,27 @@ import java.util.regex.Pattern;
 
 @Service
 public class SMSTemplateService {
-	
-	public String templateMessage(String smsTemplate, Map<String, String> arguments) {
-		String template = Context.getAdministrationService().getGlobalProperty(smsTemplate);
-		String formattedMessage = StringUtils.isBlank(template) ? Context.getMessageSourceService().getMessage(smsTemplate,
-		    null, new Locale("en")) : template;
-		
-		Pattern pattern = Pattern.compile("\\{([^}]*)\\}");
-		Matcher matcher = pattern.matcher(formattedMessage);
-		while (matcher.find()) {
-			String placeholder = matcher.group(1);
-			String modifiedPlaceholder = placeholder.toLowerCase().replaceAll("\\s", "");
-			Object value = arguments.get(modifiedPlaceholder);
-			placeholder = String.format("{%s}", placeholder);
-			formattedMessage = formattedMessage.replace(placeholder, String.valueOf(value));
-		}
-		
-		return formattedMessage.replace("\\n", System.lineSeparator());
-	}
-	
+
+    public String message(String templateKey, Map<String, String> placeholderValues) {
+        String formattedMessage = template(templateKey);
+
+        Matcher matcher = Pattern.compile("\\{([^}]*)\\}").matcher(formattedMessage);
+        while (matcher.find()) {
+            String placeholder = matcher.group(1);
+            formattedMessage = formattedMessage.replace(String.format("{%s}", placeholder), placeholderValue(placeholderValues, placeholder));
+        }
+
+        return formattedMessage.replace("\\n", System.lineSeparator());
+    }
+
+    private String template(String key) {
+        String template = Context.getAdministrationService().getGlobalProperty(key);
+        if (!StringUtils.isBlank(template)) return template;
+        return Context.getMessageSourceService().getMessage(key,
+                null, new Locale("en"));
+    }
+
+    private String placeholderValue(Map<String, String> placeholderValues, String placeholder) {
+        return placeholderValues.get(placeholder.toLowerCase().replaceAll("\\s", ""));
+    }
 }

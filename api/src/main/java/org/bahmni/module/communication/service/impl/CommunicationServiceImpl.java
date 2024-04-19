@@ -17,7 +17,6 @@ import org.openmrs.util.OpenmrsUtil;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.mail.Session;
-import javax.mail.Address;
 import javax.mail.Multipart;
 import javax.mail.Transport;
 import javax.mail.internet.*;
@@ -28,38 +27,28 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class CommunicationServiceImpl implements CommunicationService {
-	
+
 	MessagingUtility messagingUtility;
-	
-	//	private final static String SMS_URI = "bahmni.sms.url";
-	
+
 	private final static String SMS_TOKEN_KEY_FILE = "sms-communications-token.txt";
-	
+
 	private final Log log = LogFactory.getLog(this.getClass());
-	
+
 	public void setMessagingUtility(MessagingUtility messagingUtility) {
 		this.messagingUtility = messagingUtility;
 	}
-	
+
 	@Override
 	public void sendEmail(MailContent mailContent) {
 		try {
 			Session session = messagingUtility.getSession();
-			MimeMessage mail = new MimeMessage(session);
-			if (!Objects.equals(mail.getSession().getProperty("mail.send"), "true"))
+			if (!Objects.equals(session.getProperty("mail.send"), "true"))
 				return;
+			MimeMessage mail = new MimeMessage(session);
 			mail.setFrom(new InternetAddress(session.getProperty("mail.from")));
-			Address[] toAddresses = new Address[1];
-			toAddresses[0] = new InternetAddress(mailContent.getRecipient().getEmail());
 			mail.setRecipients(javax.mail.Message.RecipientType.TO, mailContent.getRecipient().getEmail());
-			
-			if (mailContent.getCc() != null && mailContent.getCc().length > 0) {
-				mail.setRecipients(javax.mail.Message.RecipientType.CC, messagingUtility.getAddresses(mailContent.getCc()));
-			}
-			if (mailContent.getBcc() != null && mailContent.getCc().length > 0) {
-				mail.setRecipients(javax.mail.Message.RecipientType.BCC, messagingUtility.getAddresses(mailContent.getBcc()));
-			}
-			
+			mail.setRecipients(javax.mail.Message.RecipientType.CC, messagingUtility.getAddresses(mailContent.getCc()));
+			mail.setRecipients(javax.mail.Message.RecipientType.BCC, messagingUtility.getAddresses(mailContent.getBcc()));
 			mail.setSubject(mailContent.getSubject());
 			mail.setSentDate(new Date());
 			MimeBodyPart mailBody = new MimeBodyPart();
@@ -88,13 +77,12 @@ public class CommunicationServiceImpl implements CommunicationService {
 			log.info("Mail Sent");
 			transport.close();
 			t.setContextClassLoader(ccl);
-			
 		}
 		catch (Exception exception) {
 			throw new RuntimeException("Error occurred while sending email", exception);
 		}
 	}
-	
+
 	@Override
 	public void sendSMS(String phoneNumber, String message) {
 		try {
@@ -114,11 +102,11 @@ public class CommunicationServiceImpl implements CommunicationService {
 			String tokenFilePath = new File(OpenmrsUtil.getApplicationDataDirectory() + "/sms-token", SMS_TOKEN_KEY_FILE)
 			        .getAbsolutePath();
 			String token = messagingUtility.getSMSTokenFromTokenFile(tokenFilePath);
-			
+
 			if (token == null) {
 				throw new RuntimeException("Token not found in the token file: " + tokenFilePath);
 			}
-			
+
 			request.addHeader("Authorization", "Bearer " + token);
 			request.setEntity(params);
 			CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -126,8 +114,8 @@ public class CommunicationServiceImpl implements CommunicationService {
 			httpClient.close();
 		}
 		catch (Exception e) {
-			log.error("Exception occurred in sending SMS ", e);
-			throw new RuntimeException("Exception occurred in sending SMS ", e);
+			log.error("Exception occurred in sending SMS", e);
+			throw new RuntimeException("Exception occurred in sending SMS", e);
 		}
 	}
 }
