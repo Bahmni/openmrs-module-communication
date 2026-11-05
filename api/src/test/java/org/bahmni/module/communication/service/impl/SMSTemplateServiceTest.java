@@ -8,21 +8,19 @@ import org.mockito.Mock;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.messagesource.MessageSourceService;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.junit.After;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 
-@PowerMockIgnore("javax.management.*")
-@PrepareForTest(Context.class)
-@RunWith(PowerMockRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class SMSTemplateServiceTest {
 
     @Mock
@@ -36,13 +34,20 @@ public class SMSTemplateServiceTest {
 
     private SMSTemplateService smsTemplateService;
 
+    private MockedStatic<Context> contextMock;
+
 
     @Before
     public void setUp() {
-        PowerMockito.mockStatic(Context.class);
-        when(Context.getAdministrationService()).thenReturn(administrationService);
-        when(Context.getMessageSourceService()).thenReturn(messageSourceService);
+        contextMock = Mockito.mockStatic(Context.class);
+        contextMock.when(Context::getAdministrationService).thenReturn(administrationService);
+        contextMock.when(Context::getMessageSourceService).thenReturn(messageSourceService);
         smsTemplateService = new SMSTemplateService();
+    }
+
+    @After
+    public void tearDown() {
+        contextMock.close();
     }
 
     @Test
