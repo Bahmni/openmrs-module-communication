@@ -64,11 +64,13 @@ public class CommunicationServiceImplTest {
 
     private MockedStatic<Context> contextMock;
     private MockedStatic<HttpClients> httpClientsMock;
+    private MockedStatic<OpenmrsUtil> openmrsUtilMock;
 
     @Before
     public void init() throws NoSuchProviderException {
         contextMock = mockStatic(Context.class);
         httpClientsMock = mockStatic(HttpClients.class);
+        openmrsUtilMock = mockStatic(OpenmrsUtil.class);
 
         contextMock.when(Context::getAdministrationService).thenReturn(administrationService);
         contextMock.when(Context::getMessageSourceService).thenReturn(messageSourceService);
@@ -94,6 +96,7 @@ public class CommunicationServiceImplTest {
     public void tearDown() {
         contextMock.close();
         httpClientsMock.close();
+        openmrsUtilMock.close();
     }
 
     @Test
