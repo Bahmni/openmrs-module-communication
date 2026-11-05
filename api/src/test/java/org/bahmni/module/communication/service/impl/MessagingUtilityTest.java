@@ -12,10 +12,10 @@ import org.mockito.Mock;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.util.OpenmrsUtil;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.junit.After;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.mail.Address;
 import javax.mail.Session;
@@ -30,9 +30,7 @@ import java.nio.charset.Charset;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
-@PowerMockIgnore("javax.management.*")
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(Context.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class MessagingUtilityTest {
 
     @Mock
@@ -43,14 +41,21 @@ public class MessagingUtilityTest {
 
     private MessagingUtility messagingUtility;
 
+    private MockedStatic<Context> contextMock;
+
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
     @Before
     public void setUp() {
-        PowerMockito.mockStatic(Context.class);
-        when(Context.getAdministrationService()).thenReturn(administrationService);
+        contextMock = Mockito.mockStatic(Context.class);
+        contextMock.when(Context::getAdministrationService).thenReturn(administrationService);
         messagingUtility = new MessagingUtility();
+    }
+
+    @After
+    public void tearDown() {
+        contextMock.close();
     }
 
     @Test

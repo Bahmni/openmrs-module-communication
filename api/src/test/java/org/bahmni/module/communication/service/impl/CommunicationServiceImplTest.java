@@ -19,10 +19,9 @@ import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.messagesource.MessageSourceService;
 import org.openmrs.util.OpenmrsUtil;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.junit.After;
+import org.mockito.MockedStatic;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -39,9 +38,7 @@ import java.util.Properties;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-@PowerMockIgnore("javax.management.*")
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Context.class, Session.class, OpenmrsUtil.class, HttpClients.class})
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class CommunicationServiceImplTest {
 
     @Mock
@@ -65,16 +62,19 @@ public class CommunicationServiceImplTest {
     @InjectMocks
     CommunicationServiceImpl communicationService;
 
+    private MockedStatic<Context> contextMock;
+    private MockedStatic<HttpClients> httpClientsMock;
+    private MockedStatic<OpenmrsUtil> openmrsUtilMock;
+
     @Before
     public void init() throws NoSuchProviderException {
-        PowerMockito.mockStatic(Context.class);
-        PowerMockito.mockStatic(Session.class);
-        PowerMockito.mockStatic(HttpClients.class);
-        PowerMockito.mockStatic(OpenmrsUtil.class);
+        contextMock = mockStatic(Context.class);
+        httpClientsMock = mockStatic(HttpClients.class);
+        openmrsUtilMock = mockStatic(OpenmrsUtil.class);
 
-        when(Context.getAdministrationService()).thenReturn(administrationService);
-        when(Context.getMessageSourceService()).thenReturn(messageSourceService);
-        when(HttpClients.createDefault()).thenReturn(httpClient);
+        contextMock.when(Context::getAdministrationService).thenReturn(administrationService);
+        contextMock.when(Context::getMessageSourceService).thenReturn(messageSourceService);
+        httpClientsMock.when(HttpClients::createDefault).thenReturn(httpClient);
         when(messagingUtility.getSession()).thenReturn(session);
         when(session.getTransport()).thenReturn(mailTransport);
         Properties p = new Properties();
@@ -90,6 +90,13 @@ public class CommunicationServiceImplTest {
         p.put("mail.send", "true");
         when(session.getProperties()).thenReturn(p);
         when(session.getProperty(anyString())).thenAnswer(prop -> p.getProperty(prop.getArguments()[0].toString()));
+    }
+
+    @After
+    public void tearDown() {
+        contextMock.close();
+        httpClientsMock.close();
+        openmrsUtilMock.close();
     }
 
     @Test
