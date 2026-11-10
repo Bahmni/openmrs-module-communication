@@ -11,7 +11,7 @@ This module is supporting [bahmni-core](https://github.com/Bahmni/bahmni-core) m
 [![OpenmrsModuleCommunication-master Actions Status](https://github.com/Bahmni/openmrs-module-communication/workflows/Java%20CI%20with%20Maven/badge.svg)](https://github.com/Bahmni/openmrs-module-communication/actions)
 
 ### Prerequisite
-    JDK 1.8
+    JDK 17
 
 ### Clone the repository and build the omod
 
